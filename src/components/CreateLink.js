@@ -1,10 +1,37 @@
 import React, { useState, useCallback } from "react";
+import gql from "graphql-tag";
+import { useMutation } from "urql";
+
+// define POST_MUTATION, which accepts description and url as variables ($)
+const POST_MUTATION = gql`
+  mutation PostMutation($description: String!, $url: String!) {
+    post(description: $description, url: $url) {
+      id
+      createdAt
+      url
+      description
+      postedBy {
+        id
+        name
+      }
+      votes {
+        id
+        user {
+          id
+        }
+      }
+    }
+  }
+`;
 
 const CreateLink = props => {
   const [description, setDescription] = useState("");
   const [url, setUrl] = useState("");
+  const [state, executeMutation] = useMutation(POST_MUTATION);
 
-  const submit = useCallback(() => {}, []);
+  const submit = useCallback(() => {
+    executeMutation({ url, description });
+  }, [executeMutation, url, description]);
 
   return (
     <div>
@@ -24,7 +51,9 @@ const CreateLink = props => {
           placeholder="The URL for the link"
         />
       </div>
-      <button onClick={submit}>Submit</button>
+      <button disabled={state.fetching} onClick={submit}>
+        Submit
+      </button>
     </div>
   );
 };
