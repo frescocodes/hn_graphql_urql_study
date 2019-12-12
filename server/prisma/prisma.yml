@@ -1,5 +1,6 @@
 # Specifies the HTTP endpoint of your Prisma API.
-endpoint: ''
+#endpoint: ''
+endpoint: https://us1.prisma.sh/dakotah-huey-26d696/hn_graphql_urql_study/dev
 
 # Defines your models, each model is mapped to the database as a table.
 datamodel: datamodel.prisma
