@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { setToken } from "../token";
 
 const Login = props => {
   // Used to switch between login and signup
-  const [isLogin, setIsLogin] = React.useState(true);
+  const [isLogin, setIsLogin] = useState(true);
 
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [name, setName] = React.useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
 
   return (
     <div>
