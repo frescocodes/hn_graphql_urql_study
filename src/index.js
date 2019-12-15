@@ -11,13 +11,19 @@ import { cacheExchange } from "@urql/exchange-graphcache";
 // dedup: if you send same queries at the same time, dedup will make sure only one is sent to API
 // cache: caches operation results (doc cache). caches results from graphQL API by the unique query + variables combination that those results have been requested with
 // fetch: sends graphQL requests using fetch and supports cancellation by default
-
+import { getToken } from "./token";
 // create new normalized cache
 const cache = cacheExchange({});
 
 // urql needs to tknow the endpoint of the graphQL API to deal with network connections
 const client = new Client({
   url: "http://localhost:4000",
+  fetchOptions: () => {
+    const token = getToken();
+    return {
+      headers: { authorization: token ? `Bearer ${token}` : "" }
+    };
+  },
   exchanges: [dedupExchange, cache, fetchExchange]
 });
 
